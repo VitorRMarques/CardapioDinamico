@@ -34,6 +34,17 @@ model Produto {
   @@map("produtos")
 }
 
+model Cliente {
+  id               String          @db.VarChar(36) @id @default(uuid())
+  nome             String       @db.VarChar(60)
+  email            String       @db.VarChar(40)
+  senha            String       @db.VarChar(60)
+  createAt         DateTime     @default(now())
+  updateAt         DateTime     @updatedAt()
+  @@map("clientes") 
+}
+
+
 enum Tipo {
   SALGADA
   DOCE

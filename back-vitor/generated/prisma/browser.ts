@@ -27,3 +27,8 @@ export type Restaurante = Prisma.RestauranteModel
  * 
  */
 export type Produto = Prisma.ProdutoModel
+/**
+ * Model Cliente
+ * 
+ */
+export type Cliente = Prisma.ClienteModel

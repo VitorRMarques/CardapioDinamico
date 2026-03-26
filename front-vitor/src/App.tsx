@@ -3,7 +3,7 @@ import { InputPesquisa } from "./components/InputPesquisa";
 import type { ProdutoType } from "./util/ProdutoType"
 import { useEffect, useState } from "react";
 
-const apiUrl = import.meta.env.VITE_API_URL
+const apiUrl = import.meta.env.VITE_API_URL ?? 'http://localhost:3000'
 
 export default function App() {
     const [produtos, setProdutos] = useState<ProdutoType[]>([])
@@ -26,8 +26,8 @@ export default function App() {
         <> 
           <InputPesquisa setProdutos={setProdutos} />
           <div className="px-10 max-w-7xl mx-auto">
-            <h1 className="px-40 m-4 p-20 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl">
-                Produtos <span className="underline underline-offset-3 decoration-8 decoration-orange-400 dark:decoration-orange-600 ">EM DESTAQUE</span>
+            <h1 className="bg-blue-100 rounded-4xl p-15 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl">
+                Produtos <span className="underline underline-offset-3 decoration-8 decoration-purple-100  dark:decoration-purple-500 ">EM DESTAQUE</span>
             </h1>
             <div className="flex gap-3">
                 {listaProdutos}

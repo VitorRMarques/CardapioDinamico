@@ -6,7 +6,7 @@ export default function Titulo(){
             <div className="max-w flex flex-wrap items-center justify-between mx-auto p-10">
                 <Link to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
                     <img src="../assets/pngtree-restaurant-logo-images-design-restaurant-concept-vector-picture-image_10812228.png" className="h-12" alt="logo restaurante" />
-                    <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
+                    <span className="underline-offset-3 decoration-3 decoration-yellow-400 underline self-center px-7 text-5xl font-bold whitespace-nowrap dark:text-white">
                         Cardapio Dinamico
                     </span>
                 </Link>
@@ -19,7 +19,7 @@ export default function Titulo(){
                 <div>
                     <ul>
                         <li>
-                            <Link to="/login" className="block py-2 px-3 md:p-0 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 dark:text-white dark:hover:bg-gray-700 md:dark:hover:bg-transparent">
+                            <Link to="/login" className="bg-yellow-700 block py-2 px-3 md:p-0 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 dark:text-white dark:hover:bg-gray-700 md:dark:hover:bg-transparent">
                                 Identifique-se
                             </Link>
                         </li>

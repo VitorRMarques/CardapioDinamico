@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import type { ProdutoType } from "../util/ProdutoType"
 
-const apiUrl = import.meta.env.VITE_API_URL
+const apiUrl = import.meta.env.VITE_API_URL ?? 'http://localhost:3000'
 
 type Inputs = {
     termo: string
