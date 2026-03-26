@@ -1,0 +1,44 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Restaurante {
+  id              Int         @id @default(autoincrement())
+  nome            String      @db.VarChar(30)
+  produtos        Produto[]
+  @@map("restaurante") 
+}
+
+model Produto {
+  id               Int          @id @default(autoincrement())
+  descricao        String       @db.VarChar(30)
+  preco            Decimal      @db.Decimal(10, 2)
+  foto             String       
+  ingredientes     String?
+  Tipo             Tipo         @default(SALGADA)
+  createAt         DateTime     @default(now())
+  updateAt         DateTime     @updatedAt()
+  status           Boolean      @default(true)
+  restaurante      Restaurante  @relation(fields: [restauranteId], references: [id])
+  restauranteId    Int
+  @@map("produtos")
+}
+
+enum Tipo {
+  SALGADA
+  DOCE
+  ALCOOL
+  REFRI
+  AGUA
+  SUCO
+}
