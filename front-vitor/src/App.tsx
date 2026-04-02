@@ -21,18 +21,30 @@ export default function App() {
     const listaProdutos = produtos.map( produto => (
         <CardProduto data={produto} key={produto.id} />
     ))
+    const estiloFundo = () => {
+        const fundo = {
+            backgroundColor: "black",
+        }
+        return fundo
+    }
+
+
 
     return (
-        <> 
+        <div style={estiloFundo()}>
           <InputPesquisa setProdutos={setProdutos} />
           <div className=" max-w-7xl mx-auto">
-            <h1 className="bg-blue-100 rounded-1xl p-30 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl">
-                Produtos <span className="underline underline-offset-3 decoration-8 decoration-purple-100  dark:decoration-purple-500 ">EM DESTAQUE</span>
+            <h1 className="bg-blue-100 rounded-1xl m-40 mx-2 mt-0 mb-20  p-15 px-1 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl">
+                Bem-vindo ao <span className="underline underline-offset-3 decoration-8 decoration-purple-100  dark:decoration-purple-500">CardápioDinâmico</span>
+                <br />
+                <span className="text-2xl font-light leading-tight text-gray-900 dark:black">
+                    Faça seu pedido
+                </span>
             </h1>
-            <div className="flex gap-3">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                 {listaProdutos}
             </div>
           </div>
-        </>
+        </div>
     )
 }

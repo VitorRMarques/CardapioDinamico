@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom"
 import { useClienteStore } from "../context/ClienteContext"
+import restauranteLogo from "../assets/restauranteLogo.png"
 
 export default function Titulo(){
     const { cliente, deslogaCliente } = useClienteStore()
@@ -9,11 +10,21 @@ export default function Titulo(){
         localStorage.removeItem("clienteKey")
     }
 
+    const meuEstilo = () => {
+        const estiloImg = {
+            backgroundImage: `url(${restauranteLogo})`,
+            backgroundSize: 'cover',
+            height: '200px',
+            width: '200px',
+        }
+        return estiloImg
+    }
+
     return (
-        <nav className="border-orange-500 bg-orange-400 dark:bg-gray-500 dark:border-orange-700">
+        <nav className="border-orange-500 bg-orange-400 dark:bg-black dark:border-orange-700">
             <div className="max-w flex flex-wrap items-center justify-between mx-auto p-10">
                 <Link to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
-                    <img src="../assets/pngtree-restaurant-logo-images-design-restaurant-concept-vector-picture-image_10812228.png" className="h-12" alt="logo restaurante" />
+                    <img src={restauranteLogo} className="h-12" style={meuEstilo()} alt="logo restaurante" />
                     <span className="underline-offset-3 decoration-3 decoration-yellow-400 underline self-center px-7 text-5xl font-bold whitespace-nowrap dark:text-white">
                         Cardapio Dinamico
                     </span>
@@ -36,7 +47,7 @@ export default function Titulo(){
                                     </button>
                                 </div>
                             ) : (
-                                <Link to="/login" className="bg-gray-600 block md:p-4 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 dark:text-white dark:hover:bg-gray-700 md:dark:hover:bg-transparent">
+                                <Link to="/login" className="bg-gray-600 block md:p-4 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-gray-700 dark:text-white dark:hover:bg-gray-700 md:dark:hover:bg-transparent">
                                     Identifique-se
                                 </Link>
                             )}

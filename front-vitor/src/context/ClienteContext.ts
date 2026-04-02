@@ -7,7 +7,8 @@ type ClienteStore = {
     deslogaCliente: () => void
 }
 
-export const useClienteStore = create<ClienteStore>((set) => ({
+export const useClienteStore = create<ClienteStore>
+((set) => ({
     cliente: {} as ClienteType,
     logaCliente: (clienteLogado) => set({cliente: clienteLogado}),
     deslogaCliente: () => set({cliente: {} as ClienteType})

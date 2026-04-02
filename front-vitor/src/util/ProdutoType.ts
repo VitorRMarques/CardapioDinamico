@@ -7,6 +7,7 @@ export type ProdutoType = {
     foto: string
     ingredientes: string
     Tipo: string
+    tempoPreparo: number | null
     createdAt: Date
     updatedAt: Date
     status: boolean

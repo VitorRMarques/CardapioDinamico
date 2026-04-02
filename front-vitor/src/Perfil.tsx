@@ -55,7 +55,7 @@ export default function Perfil() {
 
     return (
         <div className="max-w-4xl mx-auto mt-6 p-6 bg-white border border-gray-200 rounded-lg shadow">
-            <h1 className="text-3xl font-bold mb-6">Meus Pedidos</h1>
+            <h1 className="text-5xl font-bold mb-6 px-60">Meus Pedidos</h1>
             {pedidos.length === 0 ? (
                 <p>Você ainda não fez nenhum pedido.</p>
             ) : (
@@ -66,6 +66,7 @@ export default function Perfil() {
                             <p>Restaurante: {pedido.produto.restaurante.nome}</p>
                             <p>Preço: R$ {Number(pedido.produto.preco).toLocaleString("pt-br", {minimumFractionDigits: 2})}</p>
                             <p>Data: {new Date(pedido.createdAt).toLocaleString("pt-br")}</p>
+                            <p>Na bancada: {new Date(pedido.createdAt).toLocaleString("pt-br") + (pedido.produto.tempoPreparo ? ` + (${pedido.produto.tempoPreparo} minutos)` : '')}</p>
                         </div>
                     ))}
                 </div>

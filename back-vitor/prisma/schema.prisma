@@ -14,18 +14,19 @@ datasource db {
 
 model Restaurante {
   id              Int         @id @default(autoincrement())
-  nome            String      @db.VarChar(30)
+  nome            String      @db.VarChar(100)
   produtos        Produto[]
   @@map("restaurante") 
 }
 
 model Produto {
   id               Int          @id @default(autoincrement())
-  descricao        String       @db.VarChar(30)
+  descricao        String       @db.VarChar(100)
   preco            Decimal      @db.Decimal(10, 2)
   foto             String       
   ingredientes     String?
   Tipo             Tipo         @default(SALGADA)
+  tempoPreparo     Int?         @default(0)
   createAt         DateTime     @default(now())
   updateAt         DateTime     @updatedAt()
   status           Boolean      @default(true)

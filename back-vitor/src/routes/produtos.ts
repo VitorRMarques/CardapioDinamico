@@ -14,6 +14,7 @@ const produtoSchema = z.object({
     foto: z.string(),
     ingredientes: z.string().nullable().optional(),
     Tipo: z.enum(Tipo).optional(),
+    tempoPreparo: z.number().nullable().optional(),
     status: z.boolean(),
     restauranteId: z.number(),
 })
@@ -55,12 +56,12 @@ router.post("/", async (req, res) => {
         return 
     }
 
-    const {descricao, preco, foto, ingredientes = null, Tipo = 'SALGADA', status,  restauranteId } = valida.data
+    const {descricao, preco, foto, ingredientes = null, Tipo = 'SALGADA', tempoPreparo = null, status,  restauranteId } = valida.data
 
     try {
         const produto = await prisma.produto.create({
             data: {
-                descricao, preco, foto, ingredientes, Tipo, status, restauranteId
+                descricao, preco, foto, ingredientes, Tipo, tempoPreparo, status, restauranteId
             }
         })
         res.status(201).json(produto)
