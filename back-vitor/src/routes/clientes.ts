@@ -2,7 +2,7 @@ import { prisma } from "../../lib/prisma"
 import { Router } from "express"
 import bcrypt from "bcrypt"
 import {  z } from "zod"
-import { ca, de } from "zod/locales"
+
 
 const router = Router()
 
@@ -102,4 +102,5 @@ router.get("/:id", async (req, res) => {
         res.status(400).json(error)
     }
 })
+
 export default router

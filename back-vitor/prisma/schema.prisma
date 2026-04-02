@@ -31,18 +31,31 @@ model Produto {
   status           Boolean      @default(true)
   restaurante      Restaurante  @relation(fields: [restauranteId], references: [id])
   restauranteId    Int
+  pedidos          Pedido[]
   @@map("produtos")
 }
 
 model Cliente {
-  id               String          @db.VarChar(36) @id @default(uuid())
+  id               String       @db.VarChar(36) @id @default(uuid())
   nome             String       @db.VarChar(60)
   email            String       @db.VarChar(40)
   senha            String       @db.VarChar(60)
   createAt         DateTime     @default(now())
   updateAt         DateTime     @updatedAt()
+  pedidos          Pedido[]
   @@map("clientes") 
 }
+
+model Pedido {
+  id              Int           @id @default(autoincrement())
+  cliente         Cliente       @relation(fields: [clienteId], references: [id])
+  clienteId       String
+  produto         Produto       @relation(fields: [produtoId], references: [id])
+  produtoId       Int
+  createdAt       DateTime      @default(now())
+  @@map("pedidos")
+}
+
 
 
 enum Tipo {

@@ -21,7 +21,7 @@ router.post("/", async (req, res) => {
         })
 
         if ( cliente == null ) {
-            res.status(400).json({ erro: mensaPadrao })
+            res.status(401).json({ erro: mensaPadrao })
             return
         }
 
@@ -31,7 +31,7 @@ router.post("/", async (req, res) => {
                 clienteLogadoNome: cliente.nome
             },
               process.env.JWT_KEY as string,
-              { expiresIn: "1h" }
+              { expiresIn: "24h" }
             )
 
             res.status(200).json({ 
@@ -47,5 +47,6 @@ router.post("/", async (req, res) => {
         res.status(400).json(error)
     }
 })
+
 
 export default router

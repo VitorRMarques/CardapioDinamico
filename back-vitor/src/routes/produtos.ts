@@ -1,5 +1,5 @@
 import { prisma } from "../../lib/prisma"
-import { Tipo } from "../../generated/prisma/enums"
+import { Tipo } from "../generated/prisma/enums"
 
 import { Router } from 'express'
 import { z } from 'zod'

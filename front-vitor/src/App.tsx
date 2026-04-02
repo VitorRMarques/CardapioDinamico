@@ -25,8 +25,8 @@ export default function App() {
     return (
         <> 
           <InputPesquisa setProdutos={setProdutos} />
-          <div className="px-10 max-w-7xl mx-auto">
-            <h1 className="bg-blue-100 rounded-4xl p-15 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl">
+          <div className=" max-w-7xl mx-auto">
+            <h1 className="bg-blue-100 rounded-1xl p-30 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl">
                 Produtos <span className="underline underline-offset-3 decoration-8 decoration-purple-100  dark:decoration-purple-500 ">EM DESTAQUE</span>
             </h1>
             <div className="flex gap-3">

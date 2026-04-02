@@ -1,8 +1,16 @@
 import { Link } from "react-router-dom"
+import { useClienteStore } from "../context/ClienteContext"
 
 export default function Titulo(){
+    const { cliente, deslogaCliente } = useClienteStore()
+
+    const handleLogout = () => {
+        deslogaCliente()
+        localStorage.removeItem("clienteKey")
+    }
+
     return (
-        <nav className="border-orange-500 bg-orange-400 dark:bg-orange-800 dark:border-orange-700">
+        <nav className="border-orange-500 bg-orange-400 dark:bg-gray-500 dark:border-orange-700">
             <div className="max-w flex flex-wrap items-center justify-between mx-auto p-10">
                 <Link to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
                     <img src="../assets/pngtree-restaurant-logo-images-design-restaurant-concept-vector-picture-image_10812228.png" className="h-12" alt="logo restaurante" />
@@ -19,9 +27,19 @@ export default function Titulo(){
                 <div>
                     <ul>
                         <li>
-                            <Link to="/login" className="bg-yellow-700 block py-2 px-3 md:p-0 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 dark:text-white dark:hover:bg-gray-700 md:dark:hover:bg-transparent">
-                                Identifique-se
-                            </Link>
+                            {cliente.id ? (
+                                <div className="flex items-center space-x-4">
+                                    <span className="text-white font-semibold">Olá, {cliente.nome}</span>
+                                    <Link to="/perfil" className="text-white hover:text-gray-200 font-semibold">Perfil</Link>
+                                    <button onClick={handleLogout} className="bg-gray-600 block md:p-4 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 dark:text-white dark:hover:bg-gray-700 md:dark:hover:bg-transparent">
+                                        Sair
+                                    </button>
+                                </div>
+                            ) : (
+                                <Link to="/login" className="bg-gray-600 block md:p-4 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 dark:text-white dark:hover:bg-gray-700 md:dark:hover:bg-transparent">
+                                    Identifique-se
+                                </Link>
+                            )}
                         </li>
                     </ul>
                 </div>

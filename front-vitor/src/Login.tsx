@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 import { toast } from "sonner";
 
@@ -35,7 +35,7 @@ export default function Login() {
             logaCliente(dados)
 
             if (data.manter) {
-                localStorage.setItem("clienteKey", dados.id)
+                localStorage.setItem("clienteKey", JSON.stringify(dados))
             } else {
                 if (localStorage.getItem("clienteKey")) {
                     localStorage.removeItem("clienteKey")
@@ -78,18 +78,21 @@ export default function Login() {
                             <div>
                                 <div>
                                     <div>
-                                        <input type="text" />
+                                        <input id="remember" type="checkbox" aria-describedby="remember"
+                                               className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
+                                               {...register("manter")} />
                                     </div>
                                     <div>
-                                        <label htmlFor=""></label>
+                                        <label htmlFor="remember" className="text-gray-500 dark:text-gray-300">Manter concectado</label>
                                     </div>
                                 </div>
+                                <a href="submit" className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">Esqueceu a senha?</a>
                             </div>
-                            <button>
+                            <button type="submit" className="w-full text-white bg-gray-600 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focues-ring-blue-800">
                                 Entrar
                             </button>
-                            <p>
-                                Ainda não tem uma conta? <a href="/cadastro">Cadastre-se</a>
+                            <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+                                Ainda não tem uma conta? <Link to="/cadastro" className="font-medium text-primary-600 hover:underline dark:text-primary-500">Cadastre-se</Link>
                             </p>
                         </form>
                     </div>
