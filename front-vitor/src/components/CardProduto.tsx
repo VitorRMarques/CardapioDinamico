@@ -42,7 +42,7 @@ export function CardProduto({data}: {readonly data: ProdutoType}){
             <div className="p-10">
                 
                 {/* Descrição do produto */}
-                <h5 className="mb-2 text-2xl font-bold tracking-tight text-white">
+                <h5 className="mb-15 leading-tight font-mono  text-4xl font-bold tracking-tight text-white">
                     {data.descricao} 
                 </h5>
                 
@@ -55,22 +55,22 @@ export function CardProduto({data}: {readonly data: ProdutoType}){
                 
                 {/* Nome do restaurante */}
                 <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                    restaurante: {data.restaurante.nome}
+                    <span className="font-bold">Restaurante:</span> {data.restaurante.nome}
                 </p>
                 
                 {/* Ingredientes do produto */}
                 <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                    ingredientes: {data.ingredientes}
+                    <span className="font-bold">Ingredientes:</span> {data.ingredientes}
                 </p>
                 
                 {/* Tipo do produto */}
                 <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                    tipo: {data.Tipo}
+                    <span className="font-bold">Tipo:</span> {data.Tipo}
                 </p>
                 
                 {/* Tempo de preparo em minutos */}
                 <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                    tempo de preparo: {`${data.tempoPreparo} minutos`}
+                    <span className="font-bold">Tempo de preparo:</span> {`${data.tempoPreparo} minutos`}
                 </p>
                 
                 {/* Botão para ver detalhes e fazer pedido */}

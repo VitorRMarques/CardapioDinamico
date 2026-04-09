@@ -77,14 +77,14 @@ export default function Titulo(){
                                     )}
                                     
                                     {/* Botão de logout */}
-                                    <button onClick={handleLogout} className="bg-gray-600 block md:p-4 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 dark:text-white dark:hover:bg-gray-700 md:dark:hover:bg-transparent">
+                                    <button onClick={handleLogout} className="bg-gray-600 transition-colors duration-200 block md:p-4 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 dark:text-white dark:hover:bg-gray-700 md:dark:hover:bg-transparent">
                                         Sair
                                     </button>
                                 </div>
                             ) : (
                                 // Se não autenticado, exibe link para login
                                 <div className="flex items-center space-x-4">
-                                    <Link to="/cadastro-produto" className="text-white hover:text-gray-200 font-semibold">Adicionar Produto</Link>
+                                    <Link to="/cadastro-produto" className="transition-colors duration-200 text-white hover:text-gray-200 font-semibold">Adicionar Produto</Link>
                                     <Link to="/login" className="bg-gray-600 block md:p-4 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-gray-700 dark:text-white dark:hover:bg-gray-700 md:dark:hover:bg-transparent">
                                         Identifique-se
                                     </Link>

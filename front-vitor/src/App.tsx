@@ -54,12 +54,12 @@ export default function App() {
           {/* Componente de pesquisa com prop para atualizar lista de produtos */}
           <InputPesquisa setProdutos={setProdutos} />
           
-          <div className=" max-w-7xl mx-auto">
+          <div className=" max-w-7xl mx-auto text-center">
             {/* Cabeçalho com título e subtítulo */}
-            <h1 className="bg-blue-100 rounded-1xl m-40 mx-2 mt-0 mb-20  p-15 px-1 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl">
+            <h1 className=" bg-blue-100 rounded-1xl m-40 mx-2 mt-0 mb-20  p-15 px-1 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl">
                 Bem-vindo ao <span className="underline underline-offset-3 decoration-8 decoration-purple-100  dark:decoration-purple-500">CardápioDinâmico</span>
                 <br />
-                <span className="text-2xl font-light leading-tight text-gray-900 dark:black">
+                <span className="text-3xl px-4 font-light leading-tight text-gray-900 dark:black">
                     Faça seu pedido
                 </span>
             </h1>

@@ -110,33 +110,39 @@ export default function Perfil() {
 
     // ===== RENDER =====
     return (
-        <div className="max-w-4xl mx-auto mt-6 p-6 bg-white border border-gray-200 rounded-lg shadow">
+        <div className="max-w-4xl mx-auto mt-10 p-8 bg-gray-950 rounded-2xl shadow-2xl">
             {/* Título da página */}
-            <h1 className="text-5xl font-bold mb-6 px-60">Meus pedidos</h1>
+            <h1 className="text-4xl font-extrabold mb-8 text-center text-white tracking-tight">Meus pedidos</h1>
             
             {/* Se não há pedidos, exibe mensagem */}
             {pedidos.length === 0 ? (
-                <p>Você ainda não fez nenhum pedido.</p>
+                <p className="text-2xl font-bold text-red-500">Você ainda não fez nenhum pedido.</p>
             ) : (
                 // Se há pedidos, exibe lista
-                <div className="space-y-4">
+                <div className="space-y-6">
                     {/* Mapeia cada pedido em um card */}
                     {pedidos.map(pedido => (
-                        <div key={pedido.id} className="border border-gray-300 rounded-lg p-4">
-                            {/* Descrição do produto */}
-                            <h2 className="text-xl font-semibold">{pedido.produto.descricao}</h2>
-                            
+                        <div key={pedido.id} className="bg-gray-800 border border-gray-700 rounded-2xl p-5 flex gap-5 items-start shadow-md hover:shadow-orange-500/20 hover:border-orange-500 transition-all duration-300">
+
+                            {/* Foto do produto */}
+                            <img className="w-28 h-28 object-cover rounded-xl flex-shrink-0" src={pedido.produto.foto} alt={pedido.produto.descricao} />
+                            {/*Informacoes do produto*/}
+
+                            <div className="flex-1 text-left">
+                                {/* Descrição do produto */}
+                            <h2 className="text-xl font-bold text-white mb-1">{pedido.produto.descricao}</h2>
+
                             {/* Nome do restaurante */}
-                            <p>Restaurante: {pedido.produto.restaurante.nome}</p>
+                            <p className="text-gray-400 text-2xl font-bold mb-1"><span className="text-gray-300">Restaurante:</span> {pedido.produto.restaurante.nome}</p>
                             
                             {/* Preço do produto */}
-                            <p>Preço: R$ {Number(pedido.produto.preco).toLocaleString("pt-br", {minimumFractionDigits: 2})}</p>
+                            <p className="text-orange-400 font-bold text-lg mb-1"><span className="font-bold">Preço:</span> R$ {Number(pedido.produto.preco).toLocaleString("pt-br", {minimumFractionDigits: 2})}</p>
                             
                             {/* Data de criação do pedido */}
-                            <p>Data: {new Date(pedido.createdAt).toLocaleString("pt-br")}</p>
+                            <p className="text-gray-500"><span className="font-bold">Data:</span> {new Date(pedido.createdAt).toLocaleString("pt-br")}</p>
                             
                             {/* Data estimada de preparo (data + tempo de preparo) */}
-                            <p>Na bancada: {new Date(pedido.createdAt).toLocaleString("pt-br") + (pedido.produto.tempoPreparo ? ` + (${pedido.produto.tempoPreparo} minutos)` : '')}</p>
+                            <p className="text-gray-500 mb-4"><span className="font-bold">Na bancada:</span> {new Date(pedido.createdAt).toLocaleString("pt-br") + (pedido.produto.tempoPreparo ? ` + (${pedido.produto.tempoPreparo} minutos)` : '')}</p>
 
                                 <button 
                                 onClick={() => {
@@ -144,18 +150,13 @@ export default function Perfil() {
                                         excluirPedido(pedido.id);
                                     }
                                 }}
-                                style={{ 
-                                    backgroundColor: '#ef4444', 
-                                    color: 'white', 
-                                    fontWeight: 'bold', 
-                                    padding: '8px 16px', 
-                                    borderRadius: '4px',
-                                    marginTop: '12px',
-                                    cursor: 'pointer'
-                                }}
+                                className="bg-red-600 hover:bg-red-700 text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors duration-200"
                             >
                                 Excluir
                             </button>
+
+                            </div>
+                            
                         </div>
                     ))}
                 </div>
