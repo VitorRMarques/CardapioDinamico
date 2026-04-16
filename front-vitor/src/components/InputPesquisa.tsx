@@ -1,92 +1,67 @@
-// ===== IMPORTAÇÕES =====
-// Importa hook para gerenciar formulários
-import { useForm } from "react-hook-form"
-// Importa sistema de notificações
-import { toast } from "sonner"
-// Importa tipo ProdutoType para tipagem
-import type { ProdutoType } from "../util/ProdutoType"
+import { useEffect, useState } from "react";
+import type { ProdutoType } from "../util/ProdutoType";
 
-// ===== CONFIGURAÇÃO DA API =====
-// Obtém URL da API das variáveis de ambiente ou usa localhost como padrão
 const apiUrl = import.meta.env.VITE_API_URL ?? 'http://localhost:3000'
 
-// ===== TIPOS =====
-// Define formato dos dados do formulário de pesquisa
-type Inputs = {
-    termo: string  // Termo de busca (descrição, restaurante ou preço)
+type Props = {
+    setProdutos: (produtos: ProdutoType[]) => void
 }
 
-// ===== TIPOS: PROPS DO COMPONENTE =====
-// Define propriedades que o componente InputPesquisa recebe
-type InputPesquisaProps = {
-    // Função para atualizar lista de produtos na página principal
-    readonly setProdutos: React.Dispatch<React.SetStateAction<ProdutoType[]>>
-}
+export function InputPesquisa({ setProdutos }: Props) {
+    const [todos, setTodos] = useState<ProdutoType[]>([])
+    const [termo, setTermo] = useState("")
 
-// ===== COMPONENTE: INPUT PESQUISA =====
-// Componente que gerencia pesquisa e filtro de produtos
-export function InputPesquisa({setProdutos}: InputPesquisaProps) {
-    // Hook do react-hook-form para gerenciar formulário
-    const { register, handleSubmit, reset } = useForm<Inputs>()
+    // Carrega todos os produtos uma vez
+    useEffect(() => {
+        async function carrega() {
+            const response = await fetch(`${apiUrl}/produtos`)
+            const dados = await response.json()
+            setTodos(dados)
+            setProdutos(dados)
+        }
+        carrega()
+    }, [])
 
-    // ===== FUNÇÃO: ENVIA PESQUISA =====
-    // Busca produtos de acordo com o termo digitado
-    async function enviaPesquisa(data: Inputs) {
-        // Valida se o termo tem no mínimo 2 caracteres
-        if (data.termo.length < 2) {
-            toast.error("Informe, no minimo, 2 caracteres")
+    // Filtra localmente a cada keystroke
+    useEffect(() => {
+        if (!termo.trim()) {
+            setProdutos(todos)
             return
         }
-        // Faz requisição GET para endpoint de pesquisa
-        const response = await fetch(`${apiUrl}/produtos/pesquisa/${data.termo}`)
-        const dados = await response.json()
-        // Atualiza lista de produtos com resultado da busca
-        setProdutos(dados)
-    }
 
-    // ===== FUNÇÃO: MOSTRAR DESTAQUES =====
-    // Mostra todos os produtos (limpa filtro de pesquisa)
-    async function mostrarDestaques() {
-        // Faz requisição GET para obter todos os produtos
-        const response = await fetch(`${apiUrl}/produtos`)
-        const dados = await response.json()
-        // Limpa o campo de pesquisa
-        reset({ termo: ""})
-        // Atualiza lista de produtos
-        setProdutos(dados)
-    }
+        const t = termo.toLowerCase()
+        const filtrados = todos.filter(p =>
+            p.restaurante.nome.toLowerCase().includes(t) ||
+            p.descricao.toLowerCase().includes(t)        ||
+            p.ingredientes.toLowerCase().includes(t)     ||
+            p.Tipo.toLowerCase().includes(t)
+        )
+        setProdutos(filtrados)
+    }, [termo, todos])
 
-    // ===== RENDER =====
     return (
-        <div className="flex p-4 mb-4 mx-auto max-w-5xl mt-3">
-            {/* Formulário de pesquisa */}
-            <form className="flex-1" onSubmit={handleSubmit(enviaPesquisa)}>
-                <label htmlFor="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
-                <div className="relative">
-                    {/* Ícone de lupa */}
-                    <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                        <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"></path>
-                        </svg>
-                    </div>
-                    
-                    {/* Campo de entrada para pesquisa */}
-                    <input type="search" id="default-search" className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white  dark:focus:ring-blue-500  dark:focus:border-blue-500"
-                        placeholder="Informe descricao ou restaurante" required
-                        {...register('termo')} />
-                    
-                    {/* Botão de pesquisa */}
-                    <button type="submit" className="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                        pesquisar
-                    </button>
-                </div>
-            </form>
-            
-            {/* Botão para exibir todos os produtos (destaques) */}
-            <button type="button" className="ms-3 mt-2 focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900"
-                    onClick={mostrarDestaques}>
-                Exibir Destaques
-            </button>
+        <div className="relative w-full">
+            <svg
+                className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none"
+                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+            >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" />
+            </svg>
+            <input
+                type="text"
+                value={termo}
+                onChange={e => setTermo(e.target.value)}
+                placeholder="Buscar por restaurante, prato, ingrediente ou tipo..."
+                className="w-full pl-10 pr-10 py-3 text-sm bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition"
+            />
+            {termo && (
+                <button
+                    onClick={() => setTermo("")}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition"
+                >
+                    ✕
+                </button>
+            )}
         </div>
     )
 }

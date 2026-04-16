@@ -1,74 +1,61 @@
-// ===== IMPORTAÇÕES =====
-// Importa componente CardProduto for exibir cada produto
 import { CardProduto } from "./components/CardProduto"
-// Importa componente de busca/pesquisa de produtos
 import { InputPesquisa } from "./components/InputPesquisa";
-// Importa tipo ProdutoType para tipagem
 import type { ProdutoType } from "./util/ProdutoType"
-// Importa hooks do React (useEffect, useState)
 import { useEffect, useState } from "react";
 
-// ===== CONFIGURAÇÃO DA API =====
-// Obtém URL da API das variáveis de ambiente ou usa localhost como padrão
 const apiUrl = import.meta.env.VITE_API_URL ?? 'http://localhost:3000'
 
-// ===== COMPONENTE: APP (PÁGINA INICIAL) =====
-// Componente principal que exibe lista de produtos
 export default function App() {
-    // Estado para armazenar lista de produtos
     const [produtos, setProdutos] = useState<ProdutoType[]>([])
 
-    // Effect para buscar produtos ao carregar o componente
     useEffect(() => {
-        // Função assíncrona para buscar dados da API
         async function buscaDados() {
-            // Faz requisição GET para obter todos os produtos
             const response = await fetch(`${apiUrl}/produtos`)
-            // Converte resposta em JSON
             const dados = await response.json()
-            // Atualiza estado com produtos obtidos
             setProdutos(dados)
         }
-        // Chama função de busca
         buscaDados()
-    }, []) // Array vazio = executa apenas uma vez ao montar
+    }, [])
 
-    // ===== RENDERIZAÇÃO DE PRODUTOS =====
-    // Mapeia array de produtos em array de componentes CardProduto
-    const listaProdutos = produtos.map( produto => (
-        <CardProduto data={produto} key={produto.id} />
-    ))
-
-    // ===== ESTILO DO FUNDO =====
-    // Função que retorna estilo de fundo preto
-    const estiloFundo = () => {
-        const fundo = {
-            backgroundColor: "black",
-        }
-        return fundo
-    }
-
-    // ===== RENDER =====
     return (
-        <div style={estiloFundo()}>
-          {/* Componente de pesquisa com prop para atualizar lista de produtos */}
-          <InputPesquisa setProdutos={setProdutos} />
-          
-          <div className=" max-w-7xl mx-auto">
-            {/* Cabeçalho com título e subtítulo */}
-            <h1 className="bg-blue-100 rounded-1xl m-40 mx-2 mt-0 mb-20  p-15 px-1 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl">
-                Bem-vindo ao <span className="underline underline-offset-3 decoration-8 decoration-purple-100  dark:decoration-purple-500">CardápioDinâmico</span>
-                <br />
-                <span className="text-2xl font-light leading-tight text-gray-900 dark:black">
-                    Faça seu pedido
-                </span>
-            </h1>
-            
-            {/* Grid responsivo para exibir cards de produtos */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-                {listaProdutos}
+        <div className="min-h-screen bg-gray-50 dark:bg-black">
+
+            {/* Cabeçalho */}
+            <div className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
+                <div className="max-w-6xl mx-auto px-6 py-12 text-center">
+                    <p className="text-sm font-medium tracking-widest text-purple-600 uppercase mb-3">
+                        Praça de alimentação
+                    </p>
+                    <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-white mb-2">
+                        Cardápio Dinâmico
+                    </h1>
+                    <p className="text-lg text-gray-500 dark:text-gray-400 mb-8">
+                        Escolha o que quiser, sem sair da fila
+                    </p>
+
+                    {/* Barra de pesquisa */}
+                    <div className="max-w-xl mx-auto">
+                        <InputPesquisa setProdutos={setProdutos} />
+                    </div>
+                </div>
             </div>
-          </div>
+
+            {/* Grid de produtos */}
+            <div className="max-w-6xl mx-auto px-6 py-10">
+                {produtos.length === 0 ? (
+                    <div className="flex flex-col items-center justify-center py-24 text-gray-400">
+                        <p className="text-lg">Nenhum produto encontrado.</p>
+                        <p className="text-sm mt-1">Tente pesquisar por outro termo.</p>
+                    </div>
+                ) : (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                        {produtos.map(produto => (
+                            <CardProduto data={produto} key={produto.id} />
+                        ))}
+                    </div>
+                )}
+            </div>
+
         </div>
     )
 }

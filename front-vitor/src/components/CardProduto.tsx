@@ -1,85 +1,74 @@
-// ===== IMPORTAÇÕES =====
-// Importa hook de navegação
 import { useNavigate } from "react-router-dom"
-// Importa tipo ProdutoType para tipagem
 import type { ProdutoType } from "../util/ProdutoType";
-// Importa hook do contexto global de cliente
 import { useClienteStore } from "../context/ClienteContext";
 
-// ===== COMPONENTE: CARD PRODUTO =====
-// Componente que exibe um produto em formato de card
-// Props: data - objeto do tipo ProdutoType com informações do produto
-export function CardProduto({data}: {readonly data: ProdutoType}){
-    // Hook para navegar para outras páginas
+export function CardProduto({ data }: { readonly data: ProdutoType }) {
     const navigate = useNavigate();
-    // Hook do Zustand para obter dados do cliente autenticado
     const { cliente } = useClienteStore();
 
-    // ===== FUNÇÃO: HANDLE VER DETALHES =====
-    // Navega para página de detalhes do produto ou redireciona para login
     const handleVerDetalhes = () => {
-        // Se cliente está autenticado, vai para detalhes
         if (cliente.email) {
             navigate(`/detalhes/${data.id}`);
         } else {
-            // Caso contrário, vai para login
             navigate('/login');
         }
     };
 
-    // ===== RENDER =====
     return (
-        <div className="p-2 max-w-sm bg-white border border-gray-200 shadow-sm dark:bg-black dark:border-gray-700 h-full flex flex-col">
-            {/* Nome do restaurante */}
-            <h5 className="mb-2 text-5xl font-bold tracking-tight text-sky-200">
-                    {data.restaurante.nome} 
-            </h5>
-            
-            {/* Imagem do produto */}
-            <img className="rounded-t-lg w-full h-48 object-cover" src={data.foto} alt="Foto" />
-            
-            {/* Informações do produto */}
-            <div className="p-10">
-                
-                {/* Descrição do produto */}
-                <h5 className="mb-2 text-2xl font-bold tracking-tight text-white">
-                    {data.descricao} 
-                </h5>
-                
-                {/* Preço formatado em Real brasileiro */}
-                <p className="mb-3 font-extrabold text-gray-700 dark:text-gray-400">
-                    preco R$: {Number(data.preco).toLocaleString("pt-br", {
-                        minimumFractionDigits: 2
-                    })}
+        <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden flex flex-col shadow-sm hover:shadow-md transition-shadow">
+
+            {/* Imagem */}
+            <div className="relative">
+                <img
+                    className="w-full h-48 object-cover"
+                    src={data.foto}
+                    alt={data.descricao}
+                />
+                {/* Badge restaurante sobre a imagem */}
+                <span className="absolute top-3 left-3 bg-black/60 text-white text-xs font-medium px-2.5 py-1 rounded-full backdrop-blur-sm">
+                    {data.restaurante.nome}
+                </span>
+            </div>
+
+            {/* Conteúdo */}
+            <div className="p-4 flex flex-col gap-3 flex-1">
+
+                {/* Descrição + preço */}
+                <div className="flex items-start justify-between gap-2">
+                    <h2 className="text-base font-semibold text-gray-900 dark:text-white leading-snug">
+                        {data.descricao}
+                    </h2>
+                    <span className="text-base font-bold text-green-600 dark:text-green-400 whitespace-nowrap">
+                        R$ {Number(data.preco).toLocaleString("pt-br", { minimumFractionDigits: 2 })}
+                    </span>
+                </div>
+
+                {/* Tags: tipo + tempo */}
+                <div className="flex items-center gap-2 flex-wrap">
+                    <span className="text-xs bg-purple-100 text-purple-700 dark:bg-purple-900 dark:text-purple-300 px-2.5 py-0.5 rounded-full font-medium">
+                        {data.Tipo}
+                    </span>
+                    <span className="text-xs bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400 px-2.5 py-0.5 rounded-full">
+                        ⏱ {data.tempoPreparo} min
+                    </span>
+                </div>
+
+                {/* Ingredientes */}
+                <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed line-clamp-2">
+                    {data.ingredientes}
                 </p>
-                
-                {/* Nome do restaurante */}
-                <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                    restaurante: {data.restaurante.nome}
-                </p>
-                
-                {/* Ingredientes do produto */}
-                <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                    ingredientes: {data.ingredientes}
-                </p>
-                
-                {/* Tipo do produto */}
-                <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                    tipo: {data.Tipo}
-                </p>
-                
-                {/* Tempo de preparo em minutos */}
-                <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                    tempo de preparo: {`${data.tempoPreparo} minutos`}
-                </p>
-                
-                {/* Botão para ver detalhes e fazer pedido */}
-                <button onClick={handleVerDetalhes} className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-yellow-100 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-yellow-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                    Ver Detalhes
-                    <svg className="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 5h12m0 0L9 1m4 4L9 9"></path>
+
+                {/* Botão */}
+                <button
+                    onClick={handleVerDetalhes}
+                    className="mt-auto w-full py-2.5 text-sm font-medium text-white bg-gray-900 hover:bg-gray-700 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-200 rounded-lg transition-colors flex items-center justify-center gap-2"
+                >
+                    Ver detalhes
+                    <svg className="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 5h12m0 0L9 1m4 4L9 9" />
                     </svg>
                 </button>
+
             </div>
         </div>
     )
