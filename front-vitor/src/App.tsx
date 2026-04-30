@@ -7,15 +7,48 @@ const apiUrl = import.meta.env.VITE_API_URL ?? 'http://localhost:3000'
 
 export default function App() {
     const [produtos, setProdutos] = useState<ProdutoType[]>([])
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState<string | null>(null)
 
     useEffect(() => {
         async function buscaDados() {
-            const response = await fetch(`${apiUrl}/produtos`)
-            const dados = await response.json()
-            setProdutos(dados)
+            try {
+                setLoading(true)
+                const response = await fetch(`${apiUrl}/produtos`)
+                if (!response.ok) {
+                    throw new Error(`Erro na API: ${response.status}`)
+                }
+                const dados = await response.json()
+                setProdutos(dados)
+                setError(null)
+            } catch (err) {
+                setError(err instanceof Error ? err.message : 'Erro desconhecido')
+            } finally {
+                setLoading(false)
+            }
         }
         buscaDados()
     }, [])
+
+    if (loading) {
+        return (
+            <div className="min-h-screen bg-gray-50 dark:bg-black flex items-center justify-center">
+                <p className="text-lg">Carregando produtos...</p>
+            </div>
+        )
+    }
+
+    if (error) {
+        return (
+            <div className="min-h-screen bg-gray-50 dark:bg-black flex items-center justify-center">
+                <div className="text-center">
+                    <p className="text-lg text-red-600 mb-2">Erro ao carregar produtos</p>
+                    <p className="text-sm text-gray-500">{error}</p>
+                    <p className="text-sm text-gray-500 mt-2">Verifique se o servidor backend está rodando em {apiUrl}</p>
+                </div>
+            </div>
+        )
+    }
 
     return (
         <div className="min-h-screen bg-gray-50 dark:bg-black">
@@ -32,7 +65,6 @@ export default function App() {
                     <p className="text-lg text-gray-500 dark:text-gray-400 mb-8">
                         Escolha o que quiser, sem sair da fila
                     </p>
-
                     {/* Barra de pesquisa */}
                     <div className="max-w-xl mx-auto">
                         <InputPesquisa setProdutos={setProdutos} />

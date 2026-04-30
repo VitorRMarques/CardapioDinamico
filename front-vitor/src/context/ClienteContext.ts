@@ -1,6 +1,5 @@
 import type { ClienteType } from "../util/ClienteType"
 import { create } from "zustand"
-import { persist } from "zustand/middleware"
 
 type ClienteStore = {
     cliente: ClienteType
@@ -8,15 +7,19 @@ type ClienteStore = {
     deslogaCliente: () => void
 }
 
-export const useClienteStore = create<ClienteStore>()(
-    persist(
-        (set) => ({
-            cliente: {} as ClienteType,
-            logaCliente: (clienteLogado) => set({ cliente: clienteLogado }),
-            deslogaCliente: () => set({ cliente: {} as ClienteType })
-        }),
-        {
-            name: "clienteKey", // chave no localStorage
+export const useClienteStore = create<ClienteStore>((set) => ({
+    cliente: (() => {
+        // Reidrata do localStorage ao inicializar
+        try {
+            const salvo = localStorage.getItem("clienteKey")
+            return salvo ? JSON.parse(salvo) : {} as ClienteType
+        } catch {
+            return {} as ClienteType
         }
-    )
-)
+    })(),
+    logaCliente: (clienteLogado) => set({ cliente: clienteLogado }),
+    deslogaCliente: () => {
+        localStorage.removeItem("clienteKey")
+        set({ cliente: {} as ClienteType })
+    }
+}))

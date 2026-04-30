@@ -48,14 +48,33 @@ model Cliente {
   @@map("clientes") 
 }
 
+model Admin {
+  id String @db.VarChar(36) @id @default(uuid())
+  nome String @db.VarChar(60)
+  email String @db.VarChar(60)
+  senha String @db.VarChar(60)
+  nivel Int @db.SmallInt @default(2)
+  createdAt  DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@map("admins")
+}
+
 model Pedido {
   id              Int           @id @default(autoincrement())
   cliente         Cliente       @relation(fields: [clienteId], references: [id])
   clienteId       String
   produto         Produto       @relation(fields: [produtoId], references: [id])
   produtoId       Int
+  observacao      String?       @db.Text
+  status          StatusPedido  @default(PENDENTE)
   createdAt       DateTime      @default(now())
   @@map("pedidos")
+}
+
+enum StatusPedido {
+  PENDENTE
+  PRONTO
+  ENTREGUE
 }
 
 

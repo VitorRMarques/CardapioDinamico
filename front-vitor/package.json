@@ -18,6 +18,7 @@
     "react-router-dom": "^6.30.3",
     "sonner": "^2.0.7",
     "tailwindcss": "^4.2.2",
+    "victory": "^37.3.6",
     "zod": "^4.3.6",
     "zustand": "^5.0.12"
   },

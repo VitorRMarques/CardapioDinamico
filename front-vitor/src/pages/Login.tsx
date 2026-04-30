@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "sonner";
-import { useClienteStore } from "./context/ClienteContext";
+import { useClienteStore } from ".././context/ClienteContext";
 
 type Inputs = {
     email: string
@@ -27,15 +27,9 @@ export default function Login() {
             const dados = await response.json()
             logaCliente(dados)
 
-            if (data.manter) {
-                localStorage.setItem("clienteKey", JSON.stringify(dados))
-            } else {
-                localStorage.removeItem("clienteKey")
-            }
-
-            if (!data.manter) {
-                localStorage.removeItem("clienteKey")
-            }
+            
+            localStorage.setItem("clienteKey", JSON.stringify(dados))
+            
 
             navigate("/")
         } else {

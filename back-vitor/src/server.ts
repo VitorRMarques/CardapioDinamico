@@ -1,3 +1,4 @@
+import 'dotenv/config'
 import express from 'express'
 import cors from 'cors'
 import jwt from 'jsonwebtoken'
@@ -6,14 +7,15 @@ import routerProdutos from './routes/produtos'
 import routerRestaurantes from './routes/restaurantes'
 import routerClientes from './routes/clientes'
 import routerLogin from './routes/login'
-import routerPedidos from './routes/pedidos'    
+import routerPedidos from './routes/pedidos'
+import routerAdmin from './routes/admin'    
 
 const app = express()
 const port = 3000
 
 app.use(cors({
     origin: 'http://localhost:5173',
-    methods: ['GET', 'POST', 'DELETE'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization']
 }))     
 app.use(express.json())
@@ -34,6 +36,7 @@ const verificarToken = (req: express.Request, res: express.Response, next: expre
     try {
         const decoded = jwt.verify(token, jwtKey) as any
         ;(req as any).clienteId = decoded.clienteLogadoId
+        ;(req as any).clienteRole = decoded.role
         console.log('Token verificado, clienteId:', (req as any).clienteId)
         next()
     } catch (error) {
@@ -51,6 +54,7 @@ app.use('/restaurantes', routerRestaurantes)
 app.use('/clientes', routerClientes)
 app.use('/clientes/login', routerLogin)
 app.use('/pedidos', verificarToken, routerPedidos)
+app.use('/admin', verificarToken, routerAdmin)
 
 app.listen(port, () => {
     console.log(`Servidor rodando na porta: ${port}`)

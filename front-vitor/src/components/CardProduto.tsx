@@ -7,11 +7,9 @@ export function CardProduto({ data }: { readonly data: ProdutoType }) {
     const { cliente } = useClienteStore();
 
     const handleVerDetalhes = () => {
-        if (cliente.email) {
-            navigate(`/detalhes/${data.id}`);
-        } else {
-            navigate('/login');
-        }
+        
+        navigate(`/detalhes/${data.id}`);
+        
     };
 
     return (

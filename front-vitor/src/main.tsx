@@ -1,6 +1,6 @@
 // ===== IMPORTAÇÕES =====
-// Importa StrictMode e useEffect do React (para detecção de efeitos colaterais e hooks)
-import { StrictMode, useEffect } from 'react'
+// Importa StrictMode do React (para detecção de efeitos colaterais)
+import { StrictMode } from 'react'
 // Importa createRoot para renderizar a aplicação no DOM
 import { createRoot } from 'react-dom/client'
 // Importa estilos CSS globais da aplicação
@@ -8,11 +8,13 @@ import './index.css'
 
 // Importa os componentes principais (páginas) da aplicação
 import App from './App.tsx'           // Página inicial com lista de produtos
-import Login from './Login.tsx'       // Página de login
-import Registro from './Registro.tsx' // Página de cadastro
-import Detalhes from './Detalhes.tsx' // Página de detalhes do produto
-import Perfil from './Perfil.tsx'     // Página de perfil do cliente
-import CadastroProduto from './CadastroProduto.tsx' // Página de cadastro de produto
+import Login from './pages/Login.tsx'       // Página de login
+import Registro from './pages/Registro.tsx' // Página de cadastro
+import Detalhes from './pages/Detalhes.tsx' // Página de detalhes do produto
+import Perfil from './pages/Perfil.tsx'     // Página de perfil do cliente
+import CadastroProduto from './pages/CadastroProduto.tsx' // Página de cadastro de produto
+import Admin from './pages/Admin.tsx'
+import Graficos from './pages/Graficos.tsx'
 
 import Layout from './Layout.tsx'
 // Importa ferramentas de roteamento do React Router
@@ -44,6 +46,10 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
         { path: 'cadastro-produto', element: <CadastroProduto /> },
         // Rota do perfil - exibe pedidos do cliente logado
         { path: 'perfil', element: <Perfil /> },
+        // Rota do painel administrativo
+        { path: 'admin', element: <Admin /> },
+        // Rota de gráficos - visualização de dados
+        { path: 'graficos', element: <Graficos /> },
       ],
     },
   ])

@@ -1,6 +1,7 @@
-// ===== IMPORTAÇÕES =====
+                                                                                                                                // ===== IMPORTAÇÕES =====
+import type { MouseEvent } from "react"
 // Importa hook para navegação e links
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 // Importa hook do contexto global de cliente
 import { useClienteStore } from "../context/ClienteContext"
 // Importa imagem do logo do restaurante
@@ -9,9 +10,46 @@ import restauranteLogo from "../assets/restauranteLogo.png"
 // ===== COMPONENTE: TITULO =====
 // Componente de cabeçalho/navbar da aplicação
 // Exibe logo, nome, e opções de login/perfil/logout
-export default function Titulo(){
+export default function Cabecalho(){
     // Hook do Zustand para obter dados do cliente e função de logout
-    const { cliente, deslogaCliente } = useClienteStore()
+    const { cliente, deslogaCliente, logaCliente } = useClienteStore()
+    const navigate = useNavigate()
+    const apiUrl = import.meta.env.VITE_API_URL ?? "http://localhost:3000"
+
+    const handleAdminClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault()
+
+        if (!cliente.email) {
+            alert('Email do administrador não encontrado. Por favor, faça login novamente.')
+            return
+        }
+
+        const senha = window.prompt('Digite a senha do administrador para acessar a área de administração:')
+        if (!senha) {
+            return
+        }
+
+        try {
+            const response = await fetch(`${apiUrl}/clientes/login`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: cliente.email, senha })
+            })
+
+            if (!response.ok) {
+                alert('Senha incorreta. Acesso à administração negado.')
+                return
+            }
+
+            const dados = await response.json()
+            logaCliente(dados)
+            localStorage.setItem('clienteKey', JSON.stringify(dados))
+            navigate('/admin')
+        } catch (error) {
+            console.error('Erro ao verificar senha do administrador:', error)
+            alert('Erro de conexão ao verificar senha. Tente novamente.')
+        }
+    }
 
     // ===== FUNÇÃO: HANDLE LOGOUT =====
     // Faz logout do cliente removendo dados do état global e localStorage
@@ -69,22 +107,36 @@ export default function Titulo(){
                                     <span className="text-white font-semibold">Olá, {cliente.nome}</span>
                                     
                                     {/* Link para página de perfil */}
-                                    <Link to="/perfil" className="text-white hover:text-gray-700 font-semibold border p-2">Perfil</Link>
+                                    <Link to="/perfil" className="text-white hover:text-gray-700 font-semibold border p-2">Meus pedidos</Link>
                                     
                                     {/* Link para adicionar produto */}
                                     {cliente.role === "ADMIN" && (
                                         <Link to="/cadastro-produto" className="text-white hover:text-gray-500 font-semibold border p-2">Adicionar Produto</Link>
                                     )}
+
+                                    {cliente.role === "ADMIN" && (
+                                        <button
+                                            type="button"
+                                            onClick={handleAdminClick}
+                                            className="text-white hover:text-gray-500 font-semibold border p-2"
+                                        >
+                                            ADMINISTRACAO
+                                        </button>
+                                    )}
+
+                                    {cliente.role === "ADMIN" && (
+                                        <Link to="/graficos" className="text-white hover:text-gray-500 font-semibold border p-2">GRÁFICOS</Link>
+                                    )}
                                     
                                     {/* Botão de logout */}
-                                    <button onClick={handleLogout} className="bg-gray-600 block md:p-4 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 dark:text-white dark:hover:bg-gray-700 md:dark:hover:bg-transparent">
+                                    <button onClick={handleLogout} className="mt-auto focus:outline-none focus:ring-blue-500 focus:border-2 border-purple-400 p-3 transition bg-yellow-500 text-purple-600 underline decoration-blue-300 font-bold hover:text-white hover:bg-yellow-600 ">
                                         Sair
                                     </button>
                                 </div>
                             ) : (
                                 // Se não autenticado, exibe link para login
                                 <div className="flex items-center space-x-4">
-                                    <Link to="/login" className="bg-gray-600  block md:p-4 text-gray-900 rounded-sm hover:bg-gray-200 transition md:hover:bg-transparent md:border-0 md:hover:text-gray-700 dark:text-white dark:hover:bg-gray-700 md:dark:hover:bg-transparent">
+                                    <Link to="/login" className="mt-auto focus:outline-none focus:ring-blue-500 focus:border-transparent p-3  transition bg-yellow-500 text-purple-600 underline decoration-blue-300 font-bold hover:text-white focus:ring-2 hover:bg-purple-600 rounded-xl">
                                         Identifique-se
                                     </Link>
                                 </div>
