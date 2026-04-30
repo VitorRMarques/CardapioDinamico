@@ -41,7 +41,27 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
         // Rota de cadastro - registro de novo cliente
         { path: 'cadastro', element: <Registro/>},
         // Rota dinâmica de detalhes do produto (recebe ID do produto)
-        { path: 'detalhes/:produtoId', element: <Detalhes /> },
+        { path: 'detalhes/:produtoId', element: <Detalhes id={0} clienteId={''} produtoId={0} createdAt={''} produto={{
+          id: 0,
+          descricao: '',
+          preco: 0,
+          foto: '',
+          ingredientes: '',
+          Tipo: '',
+          tempoPreparo: null,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          status: false,
+          restauranteId: 0,
+          restaurante: {
+            id: 0,
+            nome: ''
+          }
+        }} cliente={{
+          id: '',
+          nome: '',
+          email: ''
+        }} status={'PENDENTE'} /> },
         // Rota de cadastro de produto - formulário compatível com o backend
         { path: 'cadastro-produto', element: <CadastroProduto /> },
         // Rota do perfil - exibe pedidos do cliente logado
