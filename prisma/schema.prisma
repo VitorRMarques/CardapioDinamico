@@ -1,0 +1,89 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Restaurante {
+  id              Int         @id @default(autoincrement())
+  nome            String      @db.VarChar(100)
+  produtos        Produto[]
+  @@map("restaurante") 
+}
+
+model Produto {
+  id               Int          @id @default(autoincrement())
+  descricao        String       @db.VarChar(100)
+  preco            Decimal      @db.Decimal(10, 2)
+  foto             String       
+  ingredientes     String?
+  Tipo             Tipo         @default(SALGADA)
+  tempoPreparo     Int?         @default(0)
+  createAt         DateTime     @default(now())
+  updateAt         DateTime     @updatedAt()
+  status           Boolean      @default(true)
+  restaurante      Restaurante  @relation(fields: [restauranteId], references: [id])
+  restauranteId    Int
+  pedidos          Pedido[]
+  @@map("produtos")
+}
+
+model Cliente {
+  id               String       @db.VarChar(36) @id @default(uuid())
+  nome             String       @db.VarChar(60)
+  email            String       @db.VarChar(40)
+  senha            String       @db.VarChar(60)
+  role             String       @db.VarChar(20) @default("USER")
+  createAt         DateTime     @default(now())
+  updateAt         DateTime     @updatedAt()
+  pedidos          Pedido[]
+  @@map("clientes") 
+}
+
+model Admin {
+  id String @db.VarChar(36) @id @default(uuid())
+  nome String @db.VarChar(60)
+  email String @db.VarChar(60)
+  senha String @db.VarChar(60)
+  nivel Int @db.SmallInt @default(2)
+  createdAt  DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@map("admins")
+}
+
+model Pedido {
+  id              Int           @id @default(autoincrement())
+  cliente         Cliente       @relation(fields: [clienteId], references: [id])
+  clienteId       String
+  produto         Produto       @relation(fields: [produtoId], references: [id])
+  produtoId       Int
+  observacao      String?       @db.Text
+  status          StatusPedido  @default(PENDENTE)
+  createdAt       DateTime      @default(now())
+  @@map("pedidos")
+}
+
+enum StatusPedido {
+  PENDENTE
+  PRONTO
+  ENTREGUE
+}
+
+
+
+enum Tipo {
+  SALGADA
+  DOCE
+  ALCOOL
+  REFRI
+  AGUA
+  SUCO
+}
