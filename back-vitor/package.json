@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "vercel-build": "npx prisma migrate deploy",
+    "postinstall":"prisma generate",
     "dev": "npx tsx watch src/server.ts"
   },
   "keywords": [],

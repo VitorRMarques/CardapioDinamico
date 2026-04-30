@@ -86,6 +86,30 @@ export default function Admin() {
         }
     }
 
+    const excluirPedido = async (pedidoId: number) => {
+        if (!globalThis.confirm('Deseja realmente excluir este pedido?')) {
+            return
+        }
+
+        try {
+            const response = await fetch(`${apiUrl}/admin/pedidos/${pedidoId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${cliente.token}`
+                }
+            })
+            if (response.ok) {
+                setPedidos(prev => prev.filter(p => p.id !== pedidoId))
+                alert('Pedido excluído e cliente notificado por email.')
+            } else {
+                const error = await response.json()
+                alert(error.erro || 'Erro ao excluir pedido')
+            }
+        } catch {
+            alert('Erro de conexão')
+        }
+    }
+
     const pedidosPorProduto = pedidosPendentes.reduce((acc, pedido) => {
         const key = pedido.produto.id
         if (!acc[key]) {
@@ -177,12 +201,20 @@ export default function Admin() {
                                                 <p className="text-xs text-gray-400 italic">
                                                     {pedido.observacao || "sem observacao"}
                                                 </p>
-                                                <button 
-                                                    onClick={() => marcarComoPronto(pedido.id)}
-                                                    className="bg-green-500 rounded-xl text-sm text-white cursor-pointer hover:bg-green-700 px-2 py-1 mt-1"
-                                                >
-                                                    Na Bancada
-                                                </button>
+                                                <div className="flex flex-wrap gap-2 mt-1">
+                                                    <button 
+                                                        onClick={() => marcarComoPronto(pedido.id)}
+                                                        className="bg-green-500 rounded-xl text-sm text-white cursor-pointer hover:bg-green-700 px-2 py-1"
+                                                    >
+                                                        Na Bancada
+                                                    </button>
+                                                    <button
+                                                        onClick={() => excluirPedido(pedido.id)}
+                                                        className="bg-red-500 rounded-xl text-sm text-white cursor-pointer hover:bg-red-700 px-2 py-1"
+                                                    >
+                                                        Excluir
+                                                    </button>
+                                                </div>
                                             </div>
                                             <span className="text-xs text-gray-400">
                                                 #{pedido.id}
@@ -236,12 +268,20 @@ export default function Admin() {
                                 </td>
                                 <td className="px-6 py-3 text-gray-400 whitespace-nowrap">{new Date(pedido.createdAt).toLocaleDateString("pt-br")}</td>
                                 <td className="px-6 py-3">
-                                    <button 
-                                        onClick={() => marcarComoPronto(pedido.id)}
-                                        className="bg-green-500 hover:bg-green-600 text-white text-xs px-3 py-1 rounded-lg transition-colors"
-                                    >
-                                        Na Bancada
-                                    </button>
+                                    <div className="flex flex-col gap-2">
+                                        <button 
+                                            onClick={() => marcarComoPronto(pedido.id)}
+                                            className="bg-green-500 hover:bg-green-600 text-white text-xs px-3 py-1 rounded-lg transition-colors"
+                                        >
+                                            Na Bancada
+                                        </button>
+                                        <button 
+                                            onClick={() => excluirPedido(pedido.id)}
+                                            className="bg-red-500 hover:bg-red-600 text-white text-xs px-3 py-1 rounded-lg transition-colors"
+                                        >
+                                            Excluir
+                                        </button>
+                                    </div>
                                 </td>
                             </tr>
                             ))}                  

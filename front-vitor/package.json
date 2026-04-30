@@ -4,6 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "start": "react-scripts start",
     "dev": "npx vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
@@ -13,6 +14,7 @@
     "@hookform/resolvers": "^5.2.2",
     "@tailwindcss/vite": "^4.1.11",
     "react": "^19.2.4",
+    "react-scripts": "5.0.1",
     "react-dom": "^19.2.4",
     "react-hook-form": "7.72.0",
     "react-router-dom": "^6.30.3",

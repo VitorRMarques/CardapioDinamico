@@ -2,6 +2,7 @@ import { prisma } from "../../lib/prisma"
 import { Router } from "express"
 import bcrypt from 'bcrypt'
 import { z } from 'zod'
+import { sendOrderCanceledEmail } from '../service/mail'
 
 const router = Router()
 
@@ -149,6 +150,53 @@ router.get("/pedidos/todos", async (req, res) => {
   } catch(error) {
     console.error('Erro ao buscar pedidos:', error)
     res.status(400).json({ erro: 'Erro ao buscar pedidos' })
+  }
+})
+
+router.delete('/pedidos/:id', async (req, res) => {
+  const clienteRole = (req as any).clienteRole
+  const pedidoId = Number(req.params.id)
+
+  if (clienteRole !== 'ADMIN') {
+    return res.status(403).json({ erro: 'Acesso negado. Apenas administradores.' })
+  }
+
+  if (Number.isNaN(pedidoId)) {
+    return res.status(400).json({ erro: 'ID do pedido inválido' })
+  }
+
+  try {
+    const pedido = await prisma.pedido.findUnique({
+      where: { id: pedidoId },
+      include: {
+        cliente: true,
+        produto: {
+          include: { restaurante: true }
+        }
+      }
+    })
+
+    if (!pedido) {
+      return res.status(404).json({ erro: 'Pedido não encontrado' })
+    }
+
+    await prisma.pedido.delete({ where: { id: pedidoId } })
+
+    try {
+      const info = await sendOrderCanceledEmail(pedido)
+      console.log('Email de cancelamento enviado:', {
+        messageId: info.messageId,
+        accepted: info.accepted,
+        rejected: info.rejected
+      })
+    } catch (mailError) {
+      console.error('Erro ao enviar email de cancelamento:', mailError)
+    }
+
+    res.status(200).json({ message: 'Pedido excluído com sucesso' })
+  } catch (error) {
+    console.error('Erro ao excluir pedido:', error)
+    res.status(500).json({ erro: 'Erro interno do servidor' })
   }
 })
 
