@@ -1,10 +1,9 @@
 import { useNavigate } from "react-router-dom"
 import type { ProdutoType } from "../util/ProdutoType";
-import { useClienteStore } from "../context/ClienteContext";
 
 export function CardProduto({ data }: { readonly data: ProdutoType }) {
     const navigate = useNavigate();
-    const { cliente } = useClienteStore();
+    
 
     const handleVerDetalhes = () => {
         

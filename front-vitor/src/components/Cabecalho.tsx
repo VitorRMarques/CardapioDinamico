@@ -1,5 +1,4 @@
                                                                                                                                 // ===== IMPORTAÇÕES =====
-import type { MouseEvent } from "react"
 // Importa hook para navegação e links
 import { Link, useNavigate } from "react-router-dom"
 // Importa hook do contexto global de cliente
