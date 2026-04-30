@@ -6,6 +6,8 @@ import { toast } from "sonner";
 
 const apiUrl = import.meta.env.VITE_API_URL ?? 'http://localhost:3000'
 
+
+
 export type PedidoType = {
     id: number
     clienteId: string
@@ -17,11 +19,12 @@ export type PedidoType = {
     status: 'PENDENTE' | 'PRONTO' | 'ENTREGUE'
 }
 
-export default function Detalhes(data: PedidoType) {
+
+export default function Detalhes() {
     const params = useParams()
     const navigate = useNavigate();
     const [produto, setProduto] = useState<ProdutoType>()
-    const [observacao, setObservacao] = useState(data.observacao ?? '')
+    const [observacao, setObservacao] = useState('')
     const { cliente } = useClienteStore()
 
     useEffect(() => {
