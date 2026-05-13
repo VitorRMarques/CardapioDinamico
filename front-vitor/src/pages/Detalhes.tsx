@@ -17,11 +17,15 @@ export type PedidoType = {
     status: 'PENDENTE' | 'PRONTO' | 'ENTREGUE'
 }
 
-export default function Detalhes(data: PedidoType) {
+type DetalhesProps = {
+    pedido?: PedidoType
+}
+
+export default function Detalhes({pedido}: DetalhesProps) {
     const params = useParams()
     const navigate = useNavigate();
     const [produto, setProduto] = useState<ProdutoType>()
-    const [observacao, setObservacao] = useState(data.observacao ?? '')
+    const [observacao, setObservacao] = useState(pedido?.observacao ?? '')
     const { cliente } = useClienteStore()
 
     useEffect(() => {
