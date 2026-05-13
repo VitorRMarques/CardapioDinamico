@@ -9,6 +9,7 @@ import routerClientes from './routes/clientes'
 import routerLogin from './routes/login'
 import routerPedidos from './routes/pedidos'
 import routerAdmin from './routes/admin'    
+import routerMailtrap from './routes/maitrap'
 
 const app = express()
 const port = 3000
@@ -45,6 +46,8 @@ const verificarToken = (req: express.Request, res: express.Response, next: expre
     }
 }
 
+app.use('/mailtrap', verificarToken, routerMailtrap)
+
 app.get('/', (req, res) => {
     res.send('API: Cardapio Flexivel')
 })
@@ -59,3 +62,5 @@ app.use('/admin', verificarToken, routerAdmin)
 app.listen(port, () => {
     console.log(`Servidor rodando na porta: ${port}`)
 })
+
+export default app

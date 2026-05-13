@@ -51,10 +51,10 @@ export default function App() {
     }
 
     return (
-        <div className="min-h-screen bg-gray-50 dark:bg-black">
+        <div className="min-h-screen bg-gray-50 dark:bg-gray-200">
 
             {/* Cabeçalho */}
-            <div className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
+            <div className="bg-white dark:bg-black border-b border-gray-200 dark:border-gray-800">
                 <div className="max-w-6xl mx-auto px-6 py-12 text-center">
                     <p className="text-sm font-medium tracking-widest text-purple-600 uppercase mb-3">
                         Praça de alimentação

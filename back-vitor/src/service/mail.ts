@@ -72,3 +72,21 @@ export async function sendOrderReadyOnBenchEmail(pedido: PedidoWithClienteProdut
         `
     })
 }
+
+export async function sendOrderCanceledEmail(pedido: PedidoWithClienteProduto) {
+    return transporter.sendMail({
+        from: 'no-reply@cardapiodinamico.com',
+        to: pedido.cliente.email,
+        subject: 'Seu pedido foi cancelado',
+        html: `
+            <p>Olá <strong>${pedido.cliente.nome}</strong>,</p>
+            <p>Informamos que seu pedido foi cancelado.</p>
+            <ul>
+                <li><strong>Pedido:</strong> ${pedido.produto.descricao}</li>
+                <li><strong>Restaurante:</strong> ${pedido.produto.restaurante.nome}</li>
+                <li><strong>Observação:</strong> ${pedido.observacao || 'Sem observação'}</li>
+            </ul>
+            <p>Se precisar, entre em contato com o restaurante ou com nosso suporte.</p>
+        `
+    })
+}

@@ -33,7 +33,7 @@ type ProdutoFrequenciaData = {
     y: number
 }
 
-export default function Graficos() {
+export default function Graficos({ embedded = false }: { embedded?: boolean }) {
     const { cliente } = useClienteStore()
     const navigate = useNavigate()
     const [pedidos, setPedidos] = useState<Pedido[]>([])
@@ -103,28 +103,178 @@ export default function Graficos() {
         setProdutoFrequenciaData(produtoData)
     }
     if (carregando) {
-        return (
-            <div className='min-h-screen flex items-center justify-center bg-gray-50 dark:bg-black'>
-                <p className='text-gray-500'>Carregando Graficos...</p>
-            </div>
-        )
+        if (!embedded) {
+            return (
+                <div className='min-h-screen flex items-center justify-center bg-gray-50 dark:bg-black'>
+                    <p className='text-gray-500'>Carregando Graficos...</p>
+                </div>
+            )
+        } else {
+            return <p className='text-gray-500'>Carregando Gráficos...</p>
+        }
     }
-    return (
-        <div className='min-h-screen bg-gray-50 dark:bg-black'>
-            <div className='bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800'>
-                <div className='max-w-7xl mx-auto px-6 py-12 text-center'>
-                    <p className='text-sm font-medium tracking-widest text-purple-600 uppercase mb-3'>
-                        Analise de Dados
-                    </p>
-                    <h1 className='text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-white mb-2'>
-                        Grafico de Pedidos
+    if (!embedded) {
+        return (
+            <div className='min-h-screen bg-gray-50 dark:bg-black'>
+                <div className='bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800'>
+                    <div className='max-w-7xl mx-auto px-6 py-12 text-center'>
+                        <p className='text-sm font-medium tracking-widest text-purple-600 uppercase mb-3'>
+                            Analise de Dados
+                        </p>
+                        <h1 className='text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-white mb-2'>
+                            Grafico de Pedidos
 
-                    </h1>
-                    <p className='text-lg text-gray-500 dark:text-gray-400'>
-                        visualize a relacao entre clientes, produtos e pedidos
-                    </p>
+                        </h1>
+                        <p className='text-lg text-gray-500 dark:text-gray-400'>
+                            visualize a relacao entre clientes, produtos e pedidos
+                        </p>
+                    </div>
+                </div>
+                <div className='max-w-7xl mx-auto px-6 py-10'>
+                    <div className='grid grid-cols-1 md:grid-cols-3 gap-6 mb-10'>
+                        <div className='bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-6'>
+                            <p className='text-sm text-gray-500 dark:text-gray-400 uppercase tracking-wide'>
+                                total de pedidos
+                            </p>
+                            <p className='text-4xl font-bold text-gray-900 dark:text-white mt-2'>
+                                {pedidos.length}
+                            </p>
+                        </div>
+                        <div className='bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-6'>
+                            <p className='text-sm text-gray-500 dark:text-gray-400 uppercase tracking-wide'>
+                                Clientes Unicos
+                            </p>
+                            <p className=' text-4xl font-bold text-gray-900 dark:text-white mt-2'>
+                                {new Set(pedidos.map(p => p.cliente.id)).size}
+                            </p>
+                        </div>
+                        <div className='bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-6'>
+                            <p className='text-sm text-gray-500 dark:text-gray-400 uppercase tracking-wide'>
+                                Produtos Unicos
+                            </p>
+                            <p className='text-4xl font-bold text-gray-900 dark:text-white mt-2'>
+                                {new Set(pedidos.map(p => p.produto.id)).size}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div className='grid grid-cols-1 lg:grid-cols-2 gap-10'>
+                        <div className='bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-6'>
+                            <h2 className='text-xl font-semibold text-gray-900 dark:text-white mb-4'>
+                                Quantidade de Pedidos por cliente (top 10)
+                            </h2>
+                            <div className='flex justify-center overflow-x-auto'>
+                                <VictoryChart
+                                    domainPadding={{x: 40, y: 20}}
+                                    width={700}
+                                    height={350}
+                                    theme={{
+                                        axis:{
+                                            style:{
+                                                tickLabels: {fill: '#666'}
+                                            }
+                                        }
+                                    }}
+                                >
+                                    <VictoryAxis
+                                        label="Clientes"
+                                        style={{
+                                            axisLabel: { fontSize: 12},
+                                            tickLabels: { fontSize: 5, angle: 0}
+                                        }}
+                                    />
+                                    <VictoryAxis
+                                        dependentAxis
+                                        label="Quantidade de Pedidos"
+                                        style={{
+                                            axisLabel: { fontSize: 12}
+                                        }}
+                                    />
+                                    <VictoryBar
+                                        data={clientePedidosData}
+                                        style={{
+                                            data: {
+                                                fill: '#8b5cf6'
+                                            }
+                                        }}
+                                        labelComponent={<VictoryTooltip/>}
+                                    />
+                                </VictoryChart>
+                            </div>
+                        </div>
+                        <div className='bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-6'>
+                            <h2 className='text-xl font-semibold text-gray-900 dark:text-white mb-4'>
+                                Produtos mais Solicitados (top 8)
+                            </h2>
+                            <VictoryChart
+                                domainPadding={{x: 40, y: 20}}
+                                width={700}
+                                height={350}
+                            >
+                                <VictoryAxis
+                                    label="Produtos"
+                                    style={{
+                                        axisLabel: {fontSize: 12 },
+                                        tickLabels: {fontSize: 5, angle: 0}
+                                    }}
+                                />
+                                <VictoryAxis
+                                    dependentAxis
+                                    label="Numero de Pedidos"
+                                    style={{
+                                        axisLabel: { fontSize: 12, padding: 40 }
+                                    }}
+                                />
+                                <VictoryBar
+                                    data={produtoFrequenciaData}
+                                    style={{
+                                        data: {
+                                            fill: "#10b981"
+                                        }
+                                    }}
+                                    labelComponent={<VictoryTooltip/>}
+                                />
+                            </VictoryChart>
+                        </div>
+
+                        <div className='bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-6'>
+                            <h2 className='text-xl font-semibold text-gray-900 dark:text-white mb-4'>
+                                Distribuicao de Tipos de Produtos
+                            </h2>
+                            <div className='flex justify-center'>
+                                <VictoryPie
+                                    data={
+                                        Object.entries(
+                                            pedidos.reduce((acc: Record<string, number>, pedido) => {
+                                                acc[pedido.produto.Tipo] = (acc[pedido.produto.Tipo] || 0) + 1
+                                                return acc
+                                            }, {})
+
+                                        ).map(([tipo, quantidade]) => ({
+                                            x: tipo,
+                                            y: quantidade
+                                        }))
+                                    }
+                                    width={400}
+                                    height={300}
+                                    colorScale={['#8b5cf6', '#10b981', '#f59e0b', '#ef4444', '#06b6d4', '#ec4899']}
+                                    labels={({ datum }) => `${datum.x}: ${datum.y}`}
+                                    labelComponent={<VictoryLabel angle={0} />}
+                                    style={{
+                                        data: {
+                                            stroke: '#fff',
+                                            strokeWidth: 2
+                                        }
+                                    }}
+                                />
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
+        )
+    } else {
+        return (
             <div className='max-w-7xl mx-auto px-6 py-10'>
                 <div className='grid grid-cols-1 md:grid-cols-3 gap-6 mb-10'>
                     <div className='bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-6'>
@@ -266,8 +416,8 @@ export default function Graficos() {
                     </div>
                 </div>
             </div>
-        </div>
-    )
+        )
+    }
 
 
 
