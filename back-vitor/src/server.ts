@@ -59,8 +59,5 @@ app.use('/clientes/login', routerLogin)
 app.use('/pedidos', verificarToken, routerPedidos)
 app.use('/admin', verificarToken, routerAdmin)
 
-app.listen(port, () => {
-    console.log(`Servidor rodando na porta: ${port}`)
-})
 
 export default app
