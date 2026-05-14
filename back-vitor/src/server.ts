@@ -63,5 +63,3 @@ app.use('/admin', verificarToken, routerAdmin)
 
 
 export default app
-
-module.exports = app
