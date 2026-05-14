@@ -3,12 +3,13 @@ import express from 'express'
 import cors from 'cors'
 import jwt from 'jsonwebtoken'
 
-import routerProdutos from './routes/produtos'
-import routerRestaurantes from './routes/restaurantes'
-import routerClientes from './routes/clientes'
-import routerLogin from './routes/login'
-import routerPedidos from './routes/pedidos'
-import routerAdmin from './routes/admin'    
+import routerProdutos from './routes/produtos.js'
+import routerRestaurantes from './routes/restaurantes.js'
+import routerClientes from './routes/clientes.js'
+import routerLogin from './routes/login.js'
+import routerPedidos from './routes/pedidos.js'
+import routerAdmin from './routes/admin.js'    
+import routerMailtrap from './routes/maitrap.js'
 
 const app = express()
 const port = 3000
@@ -45,6 +46,8 @@ const verificarToken = (req: express.Request, res: express.Response, next: expre
     }
 }
 
+app.use('/mailtrap', verificarToken, routerMailtrap)
+
 app.get('/', (req, res) => {
     res.send('API: Cardapio Flexivel')
 })
@@ -56,6 +59,5 @@ app.use('/clientes/login', routerLogin)
 app.use('/pedidos', verificarToken, routerPedidos)
 app.use('/admin', verificarToken, routerAdmin)
 
-app.listen(port, () => {
-    console.log(`Servidor rodando na porta: ${port}`)
-})
+
+export default app

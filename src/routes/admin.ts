@@ -2,7 +2,7 @@ import { prisma } from "../../lib/prisma"
 import { Router } from "express"
 import bcrypt from 'bcrypt'
 import { z } from 'zod'
-import { sendOrderCanceledEmail } from '../service/mail'
+import { sendOrderCanceledEmail } from '../service/mail.js'
 
 const router = Router()
 
