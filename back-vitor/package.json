@@ -4,10 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node src/server.ts",
-    "build":"prisma generate",
-    "dev": "tsx watch src/server.ts",
-    "vercel-build": "prisma generate && prisma migrate deploy"
+    "dev": "npx ts-node-dev --respawn src/server.ts",
+    "vercel-build": "prisma generate && prisma migrate deploy",
+    "postinstall": "prisma generate"
   },
   "keywords": [],
   "author": "",
