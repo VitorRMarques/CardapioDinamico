@@ -3,6 +3,15 @@ import express from 'express'
 import cors from 'cors'
 import jwt from 'jsonwebtoken'
 
+const app = express()
+
+app.use(express.json())
+app.use(cors({
+    origin: ['http://localhost:5173','https://cardapio-dinamico-front.vercel.app'],
+    
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}))     
 import routerProdutos from './routes/produtos.js'
 import routerRestaurantes from './routes/restaurantes.js'
 import routerClientes from './routes/clientes.js'
@@ -11,16 +20,6 @@ import routerPedidos from './routes/pedidos.js'
 import routerAdmin from './routes/admin.js'    
 import routerMailtrap from './routes/maitrap.js'
 
-const app = express()
-const port = 3000
-
-app.use(cors({
-    origin: ['http://localhost:5173','https://cardapio-dinamico-front.vercel.app'],
-    
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization']
-}))     
-app.use(express.json())
 
 // Middleware para verificar JWT
 const verificarToken = (req: express.Request, res: express.Response, next: express.NextFunction) => {
