@@ -11,7 +11,7 @@ app.use(cors({
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization']
 }))  
-   
+
 app.use(express.json())
 
 import routerProdutos from './routes/produtos.js'
@@ -56,10 +56,12 @@ app.get('/', (req, res) => {
 
 app.use('/produtos', routerProdutos)
 app.use('/restaurantes', routerRestaurantes)
-app.use('/clientes', routerClientes)
 app.use('/clientes/login', routerLogin)
+app.use('/clientes', routerClientes)
 app.use('/pedidos', verificarToken, routerPedidos)
 app.use('/admin', verificarToken, routerAdmin)
 
 
 export default app
+
+module.exports = app
