@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node src/server.ts",
+    "start": "tsx src/server.ts",
     "build":"prisma generate",
     "dev": "tsx watch src/server.ts",
     "vercel-build": "prisma generate && prisma migrate deploy"
