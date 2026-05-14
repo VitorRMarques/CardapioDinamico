@@ -3,13 +3,13 @@ import express from 'express'
 import cors from 'cors'
 import jwt from 'jsonwebtoken'
 
-import routerProdutos from './routes/produtos'
-import routerRestaurantes from './routes/restaurantes'
-import routerClientes from './routes/clientes'
-import routerLogin from './routes/login'
-import routerPedidos from './routes/pedidos'
-import routerAdmin from './routes/admin'    
-import routerMailtrap from './routes/maitrap'
+import routerProdutos from './routes/produtos.js'
+import routerRestaurantes from './routes/restaurantes.js'
+import routerClientes from './routes/clientes.js'
+import routerLogin from './routes/login.js'
+import routerPedidos from './routes/pedidos.js'
+import routerAdmin from './routes/admin.js'    
+import routerMailtrap from './routes/maitrap.js'
 
 const app = express()
 const port = 3000
