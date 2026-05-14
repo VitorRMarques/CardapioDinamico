@@ -1,6 +1,6 @@
 // ===== IMPORTAÇÕES =====
 // Importa a instância do Prisma para operações de banco de dados
-import { prisma } from "../../lib/prisma"
+import { prisma } from "../../lib/prisma.js"
 import { sendOrderConfirmationEmail, sendOrderReadyOnBenchEmail } from "../service/mail"
 // Importa o Router do Express para gerenciar rotas HTTP
 import { Router } from "express"

@@ -1,6 +1,6 @@
 // ===== IMPORTAÇÕES =====
 // Importa a instância do Prisma para operações de banco de dados
-import { prisma } from "../../lib/prisma"
+import { prisma } from "../../lib/prisma.js"
 // Importa o tipo enum 'Tipo' dos modelos Prisma gerados
 import { Tipo } from "../generated/prisma/enums"
 

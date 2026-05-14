@@ -1,4 +1,4 @@
-import { prisma } from "../../lib/prisma"
+import { prisma } from "../../lib/prisma.js"
 import { Router } from "express"
 import bcrypt from 'bcrypt'
 import { z } from 'zod'

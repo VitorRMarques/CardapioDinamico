@@ -2,7 +2,7 @@
 // Importa o JWT (JSON Web Token) para criar tokens de autenticação
 import jwt from "jsonwebtoken"
 // Importa a instância do Prisma para operações de banco de dados
-import { prisma } from "../../lib/prisma"
+import { prisma } from "../../lib/prisma.js"
 // Importa o Router do Express para gerenciar rotas HTTP
 import { Router } from "express"
 // Importa bcrypt para verificar senhas criptografadas
