@@ -6,12 +6,14 @@ import jwt from 'jsonwebtoken'
 const app = express()
 
 app.use(cors({
-    origin: ['http://localhost:5173','https://cardapio-dinamico-front.vercel.app'],
-    
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization']
-}))  
-
+  origin: [
+    "https://cardapio-dinamico-front.vercel.app",
+    "http://localhost:5173" // para desenvolvimento local
+  ],
+  credentials: true, // se usar cookies ou Authorization header
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+}))
 app.use(express.json())
 
 import routerProdutos from './routes/produtos.js'
