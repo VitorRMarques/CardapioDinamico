@@ -3,7 +3,7 @@ import { InputPesquisa } from "./components/InputPesquisa";
 import type { ProdutoType } from "./util/ProdutoType"
 import { useEffect, useState } from "react";
 
-const apiUrl = import.meta.env.VITE_API_URL ?? 'https://cardapio-dinamico-f8segihen-vitor-r-marques-projects.vercel.app/'
+const apiUrl = import.meta.env.VITE_API_URL
 
 export default function App() {
     const [produtos, setProdutos] = useState<ProdutoType[]>([])
@@ -63,7 +63,7 @@ export default function App() {
                         Cardápio Dinâmico
                     </h1>
                     <p className="text-lg text-gray-500 dark:text-gray-400 mb-8">
-                        Escolha o que quiser, sem sair da fila
+                        Escolha o que quiser
                     </p>
                     {/* Barra de pesquisa */}
                     <div className="max-w-xl mx-auto">

@@ -71,9 +71,7 @@ export default function Cabecalho(){
                     <img src={restauranteLogo} className="h-48 w-auto" alt="logo restaurante" />
                     
                     {/* Nome da aplicação */}
-                    <span className="underline-offset-3 decoration-3 decoration-yellow-400 underline self-center px-7 text-5xl font-bold whitespace-nowrap dark:text-white">
-                        Cardapio Dinamico
-                    </span>
+            
                 </Link>
                 
                 {/* Botão menu mobile (hamburger) */}
@@ -90,23 +88,23 @@ export default function Cabecalho(){
                         <li>
                             {/* Se cliente está autenticado, exibe saudação e opções de perfil/logout */}
                             {cliente.id ? (
-                                <div className="flex items-center space-x-4">
+                                <div className="items-center p-10 space-x-4">
                                     {/* Saudação personalizada */}
-                                    <span className="text-white font-semibold">Olá, {cliente.nome}</span>
+                                    <span className="text-white bg-yellow-900 font-semibold">Olá, <span className="text-2xl font-light">{cliente.nome}</span></span>
                                     
                                     {/* Link para página de perfil */}
-                                    <Link to="/perfil" className="text-white hover:text-gray-700 font-semibold border p-2">Meus pedidos</Link>
+                                    <Link to="/perfil" className="text-white hover:text-gray-700 bg-amber-500 font-semibold border p-2">Meus pedidos</Link>
                                     
                                     {/* Link para adicionar produto */}
                                     {cliente.role === "ADMIN" && (
-                                        <Link to="/cadastro-produto" className="text-white hover:text-gray-500 font-semibold border p-2">Adicionar Produto</Link>
+                                        <Link to="/cadastro-produto" className="text-white hover:text-gray-500 bg-amber-500 font-semibold border p-2">Adicionar Produto</Link>
                                     )}
 
                                     {cliente.role === "ADMIN" && (
                                         <button
                                             type="button"
                                             onClick={handleAdminClick}
-                                            className="text-white hover:text-gray-500 font-semibold border p-2"
+                                            className="text-white bg-amber-500 hover:text-gray-500 font-semibold border p-2"
                                         >
                                             ADMINISTRACAO
                                         </button>

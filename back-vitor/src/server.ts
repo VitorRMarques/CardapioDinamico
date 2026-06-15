@@ -18,8 +18,8 @@ app.use(express.json())
 
 import routerProdutos from './routes/produtos.js'
 import routerRestaurantes from './routes/restaurantes.js'
-import routerClientes from './routes/clientes.js'
 import routerLogin from './routes/login.js'
+import routerClientes from './routes/clientes.js'
 import routerPedidos from './routes/pedidos.js'
 import routerAdmin from './routes/admin.js'    
 import routerMailtrap from './routes/maitrap.js'
@@ -58,7 +58,7 @@ app.get('/', (req, res) => {
 
 app.use('/produtos', routerProdutos)
 app.use('/restaurantes', routerRestaurantes)
-app.use('/clientes/login', routerLogin)
+app.use('/clientes/login', routerLogin)  
 app.use('/clientes', routerClientes)
 app.use('/pedidos', verificarToken, routerPedidos)
 app.use('/admin', verificarToken, routerAdmin)
