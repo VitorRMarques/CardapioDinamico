@@ -1,4 +1,4 @@
-# Cardapio Dinamico 
+# PROJETO FULL STACK
 
 eh uma aplicacao web para a consulta e realizacao de pedidos em uma **praca de alimentacao**. 
 
@@ -15,5 +15,8 @@ A ideia e deixar os produtos com facil acesso para usuarios que estejam acessand
 ## Link da Aplicacao: 
 
 https://cardapio-dinamico-front.vercel.app/
+
+--> Front-end: Vite@latest com react e typescript + tailwindcss
+--> Back-end: ORM Prisma, cors, bcrypt, zustand,  
 
 
